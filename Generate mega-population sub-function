@@ -1,0 +1,37 @@
+generate_mega_population <- function(n_obs = 100000, n_vars = 20, coef_mean = 0, coef_sd = 0.9, dependencies = 0.2) {
+
+    #Generate a correlation matrix with values between -dependencies and +dependencies
+    cor_matrix <- matrix(runif(n_vars * n_vars, -dependencies, dependencies), nrow = n_vars, ncol = n_vars)
+    # Ensure the diagonal is 1
+    diag(cor_matrix) <- 1
+    # Make the matrix symmetric
+    cor_matrix[lower.tri(cor_matrix)] <- t(cor_matrix)[lower.tri(cor_matrix)]
+
+
+    # Generate independent predictors
+    #P <- matrix(rnorm(n_obs * n_vars), nrow = n_obs)
+    P <- rmvnorm(n = n_obs, mean = rep(0, n_vars), sigma = cor_matrix)
+    colnames(P) <- paste0("X", 1:n_vars)
+
+
+    # Generate coefficients (intercept = 0 for 50% prevalence)
+    true_betas <- c(Intercept = 0, rnorm(n_vars, coef_mean, coef_sd))
+
+
+    # Calculate probabilities
+    linear_combo <- cbind(1, P) %*% true_betas
+    probabilities <- plogis(linear_combo)
+
+
+    # Generate balanced outcome
+    y <- rbinom(n_obs, 1, prob = probabilities)
+
+    # Transform y into a factor
+    y <- factor(y, levels = c(0, 1), labels = c("No", "Yes"))
+
+
+    return(list(
+        data = data.frame(P, y),
+        true_coefficients = true_betas
+    ))
+}
