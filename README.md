@@ -14,20 +14,22 @@ Wrapper function _recommend_sample_size()_   recommends a minimum training sampl
 * Linear support vector machines (svmLinear)
 * Random forests (rf)
 
-** Usage **
+** Example usage of the wrapper function **
+```r
+set.seed(20011001)
 recommendation <- recommend_sample_size(
-    n_obs      = 100000,                 # population size
-    n_vars     = 10,                     # number of predictors
-    coef_mean  = 0.3,                    # mean coefficient (signal strength)
-    coef_sd    = 0.2,                    # coefficient SD
-    dependencies = 0.2,                  # correlation between predictors
-    model_type = "logistic regression",  # see supported models above
-    start_size = 100,                    # smallest candidate sample size
-    end_size   = 5000,                   # largest candidate sample size (budget cap)
-    step_size  = 100,                    # increment between candidates
-    repetitions = 30,                    # replications per sample size
-    convergence_threshold = 0.01,        # 1% AUC tolerance vs. population
-    n_cores    = 7                       # cores for parallel processing
+    n_obs = 100000, # Population size
+    n_vars = 13, # Number of variables in the mega-population
+    coef_mean = 0.2, # Mean of the coefficients
+    coef_sd = 0.3, # Standard deviation of the coefficients
+    model_type = "logistic regression",
+    start_size = 100, # Min sample size range
+    end_size = 2500, # Max sample size range (budget constrains)
+    step_size = 100,
+    repetitions = 10,
+    convergence_threshold = 0.01, #corresponds to 1% difference in performance
+    n_cores = 7 #number of cores to use for parallel processing
 )
+recommendation
+```
 
-recommendation$converged_at_n   # recommended minimum sample size
