@@ -9,10 +9,10 @@ Wrapper function _recommend_sample_size()_   recommends a minimum training sampl
 * plotting
 
 ** Suported models **
-Logistic regression (glm)
-Regularized logistic regression (glmnet)
-Linear support vector machines (svmLinear)
-Random forests (rf)
+* Logistic regression (glm)
+* Regularized logistic regression (glmnet)
+* Linear support vector machines (svmLinear)
+* Random forests (rf)
 
 ** Usage **
 recommendation <- recommend_sample_size(
