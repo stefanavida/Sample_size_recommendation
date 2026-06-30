@@ -25,8 +25,8 @@ recommendation <- recommend_sample_size(
     model_type = "logistic regression",
     start_size = 100, # Min sample size range
     end_size = 2500, # Max sample size range (budget constrains)
-    step_size = 100,
-    repetitions = 10,
+    step_size = 100, # increment between sample candidates
+    repetitions = 10, # replications per sample size
     convergence_threshold = 0.01, #corresponds to 1% difference in performance
     n_cores = 7 #number of cores to use for parallel processing
 )
